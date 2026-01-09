@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Header with Navigation */
+        header {
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+            border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+
+        nav a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            transition: width 0.3s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #a78bfa;
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #8b5cf6;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.5);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about-content {
+            font-size: 18px;
+            line-height: 1.9;
+            color: #e0e0e0;
+            margin-bottom: 40px;
+            text-align: justify;
+        }
+
+        .resume-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .resume-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.6);
+        }
+
+        /* Experience Section */
+        .experience-item {
+            background: rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: all 0.3s;
+        }
+
+        .experience-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3);
+            border-left-color: #ec4899;
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .company-name {
+            font-size: 24px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .job-title {
+            font-size: 18px;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .date-location {
+            color: #b8b8b8;
+            font-size: 14px;
+        }
+
+        .experience-item ul {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        .experience-item li {
+            color: #e0e0e0;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        /* Projects Section */
+        .project-item {
+            background: rgba(236, 72, 153, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #ec4899;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            transition: all 0.3s;
+        }
+
+        .project-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(236, 72, 153, 0.3);
+            border-left-color: #8b5cf6;
+            border-color: rgba(236, 72, 153, 0.4);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .project-title {
+            font-size: 22px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .project-tech {
+            color: #b8b8b8;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .project-date {
+            color: #b8b8b8;
+            font-size: 14px;
+        }
+
+        .project-item ul {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        .project-item li {
+            color: #e0e0e0;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        /* Education Section */
+        .education-item {
+            background: rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: all 0.3s;
+        }
+
+        .education-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3);
+            border-left-color: #ec4899;
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .university-name {
+            font-size: 24px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .degree {
+            font-size: 18px;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .edu-date {
+            color: #b8b8b8;
+            font-size: 14px;
+        }
+
+        .gpa {
+            color: #e0e0e0;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .coursework {
+            color: #b8b8b8;
+            margin-top: 10px;
+            line-height: 1.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav ul {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .about-content {
+                font-size: 16px;
+            }
+
+            .experience-header,
+            .project-header,
+            .education-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <nav>
+                <ul>
+                    <li><a href="#about" class="nav-link active">About</a></li>
+                    <li><a href="#experience" class="nav-link">Experience</a></li>
+                    <li><a href="#education" class="nav-link">Education</a></li>
+                    <li><a href="#projects" class="nav-link">Projects</a></li>
+                </ul>
+            </nav>
+            <img src="https://via.placeholder.com/80/8b5cf6/ffffff?text=Your+Photo" alt="Profile Photo" class="profile-img">
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- About Section -->
+        <section id="about" class="section active">
+            <h2 class="section-title">About Me</h2>
+            <p class="about-content">
+                Hey there, I am an Embedded Software Engineer at Qualcomm with 3+ years of experience in systems-level development. My expertise is in developing synchronization drivers, where I develop across the Kernel, Firmware, and User-space layers to manage multi-core SoC resources. I completed my MS in Computer Science at UMASS Amherst with Data Science concentration, where I focused on Machine Learning and NLP. I am interested in exploring roles that bridge the gap between low level software and machine learning.
+            </p>
+            <a href="#" class="resume-btn" onclick="alert('Add your resume link here!'); return false;">Resume</a>
+            
+            <div style="margin-top: 50px;">
+                <h3 style="font-size: 24px; margin-bottom: 20px; color: #a78bfa;">Contact</h3>
+                <p style="font-size: 18px; color: #e0e0e0; margin-bottom: 15px;">Reach out to me on</p>
+                <p style="font-size: 16px; line-height: 2;">
+                    <a href="mailto:sahanapattekeshava@gmail.com" style="color: #8b5cf6; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#ec4899'" onmouseout="this.style.color='#8b5cf6'">sahanapattekeshava@gmail.com</a><br>
+                    <a href="https://www.linkedin.com/in/sahana-p-k-acharya/" target="_blank" style="color: #8b5cf6; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#ec4899'" onmouseout="this.style.color='#8b5cf6'">linkedin.com/in/sahana-p-k-acharya</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="section">
+            <h2 class="section-title">Experience</h2>
+            
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="company-name">Qualcomm</div>
+                        <div class="job-title">Software Engineer</div>
+                        <div class="date-location">San Diego, USA</div>
+                    </div>
+                    <div class="date-location">Feb 2024 - Present</div>
+                </div>
+                <ul>
+                    <li>Collaborated with cross-functional teams to debug issues across multiple APIs, implemented robust fixes, and improved efficiency by eliminating redundant operations.</li>
+                    <li>Delivered a cross-layer API across firmware, kernel, and userspace to provide Global SynX setup information for customer requirements.</li>
+                    <li>Created end-to-end SynX configuration documentation for internal teams and customers, enhancing usability and accelerating adoption among OEM.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="company-name">Qualcomm</div>
+                        <div class="job-title">Software Engineer</div>
+                        <div class="date-location">Bangalore, India</div>
+                    </div>
+                    <div class="date-location">Jun 2020 - Dec 2022</div>
+                </div>
+                <ul>
+                    <li>Enhanced system responsiveness and minimized latency by 28% by integrating asynchronous APIs with timeout functionality within Qualcomm's Global SynX framework, streamlining processes in a heterogeneous computing environment.</li>
+                    <li>Developed a test framework using C++ and SQL scripts to evaluate APIs for cross-core synchronization. Automated data collection for performance metrics, reducing debugging time by 30+ hours per month. Conducted performance analysis using custom Python scripts to benchmark scenarios with and without Global SynX.</li>
+                    <li>Designed cross-core synchronization examples with 5% performance boost using Hexagon SDK and Java, providing OEMs insights into Qualcomm's DSP tools, enhancing integration workflows and hardware-software compatibility.</li>
+                    <li>Accelerated source code deployment by 30% through the combined use of PW and Axiom in target testing.</li>
+                    <li>Migrated the build system from Android.mk to Android.bp, utilizing shell scripts and build automation tools to achieve a 30% reduction in build times while maintaining build consistency with Android source updates.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="company-name">Qualcomm</div>
+                        <div class="job-title">Software Intern</div>
+                        <div class="date-location">Bangalore, India</div>
+                    </div>
+                    <div class="date-location">Jan 2020 - Jun 2020</div>
+                </div>
+                <ul>
+                    <li>Deployed a test framework for CPU synchronization in C++, achieving a 50% reduction in test case integration time through efficient use of threading and synchronization techniques.</li>
+                    <li>Published a paper on the findings and conducted performance analysis to measure the effectiveness of Qualcomm's global synchronization (SynX), demonstrating an 8% improvement in performance.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="section">
+            <h2 class="section-title">Education</h2>
+            
+            <div class="education-item">
+                <div class="education-header">
+                    <div>
+                        <div class="university-name">University of Massachusetts Amherst</div>
+                        <div class="degree">Masters of Science in Computer Science</div>
+                    </div>
+                    <div class="edu-date">Feb 2023 - Dec 2024</div>
+                </div>
+                <div class="gpa">GPA: 3.8</div>
+                <div class="coursework"><strong>Coursework:</strong> ML, RL, NLP, Systems for Data Science, Statistics, Computer Networks & Security</div>
+            </div>
+
+            <div class="education-item">
+                <div class="education-header">
+                    <div>
+                        <div class="university-name">RV College of Engineering</div>
+                        <div class="degree">Bachelor of Technology in Computer Science and Engineering</div>
+                    </div>
+                    <div class="edu-date">Aug 2016 - Jul 2020</div>
+                </div>
+                <div class="gpa">GPA: 8.38</div>
+                <div class="coursework"><strong>Coursework:</strong> Data Structures, Algorithms, OOP, Operating Systems, DBMS, Web Development</div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <h2 class="section-title">Projects</h2>
+            
+            <div class="project-item">
+                <div class="project-header">
+                    <div>
+                        <div class="project-title">University Thrift Application</div>
+                        <div class="project-tech">MongoDB, AWS EC2, AWS S3, Docker, Fast API, JavaScript</div>
+                    </div>
+                    <div class="project-date">Oct 2024 - Nov 2024</div>
+                </div>
+                <ul>
+                    <li>Engineered a university buy-sell app with an intuitive frontend using HTML, CSS, JavaScript, and Cypress for testing, alongside Python Fast APIs with Twilio for authentication and role-based access. Architected AWS infrastructure with EC2 and S3, integrating Swagger and Postman for streamlined API documentation and testing.</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="project-header">
+                    <div>
+                        <div class="project-title">Real-Time Data Streaming Pipeline</div>
+                        <div class="project-tech">Python, Airflow, Kafka, Spark, Cassandra, Docker</div>
+                    </div>
+                    <div class="project-date">Jan 2024 - Feb 2024</div>
+                </div>
+                <ul>
+                    <li>Developed a real-time data streaming pipeline using Kafka for ingestion, Spark for processing, and Cassandra for scalable storage, containerized with Docker for environment consistency. Automated ETL workflows with Airflow, ensuring fault-tolerant, scalable, and high-performance data processing for real-time insights.</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="project-header">
+                    <div>
+                        <div class="project-title">Reinforcement Learning Project</div>
+                        <div class="project-tech">Python, OpenAI Gym</div>
+                    </div>
+                    <div class="project-date">Nov 2023 - Dec 2023</div>
+                </div>
+                <ul>
+                    <li>Developed and optimized One-Step Actor-Critic and n-step SARSA to train agents on RL benchmark problems Cartpole, Acrobot, and 687-GridWorld. Implemented Fourier feature construction and epsilon-soft action selection.</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="project-header">
+                    <div>
+                        <div class="project-title">Transliteration Deep Learning Model</div>
+                        <div class="project-tech">Python, Pytorch, NLTK</div>
+                    </div>
+                    <div class="project-date">Apr 2023 - May 2023</div>
+                </div>
+                <ul>
+                    <li>Unified an ensemble with weighted average of Conv Seq2Seq and Transformer model for transliteration from Indic languages to English achieving 70% accuracy demonstrating effective cross-architecture integration and performance.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="section">
+            <h2 class="section-title">Education</h2>
+            
+            <div class="education-item">
+                <div class="education-header">
+                    <div>
+                        <div class="university-name">University of Massachusetts Amherst</div>
+                        <div class="degree">Masters of Science in Computer Science</div>
+                    </div>
+                    <div class="edu-date">Feb 2023 - Dec 2024</div>
+                </div>
+                <div class="gpa">GPA: 3.8</div>
+                <div class="coursework"><strong>Coursework:</strong> ML, RL, NLP, Systems for Data Science, Statistics, Computer Networks & Security</div>
+            </div>
+
+            <div class="education-item">
+                <div class="education-header">
+                    <div>
+                        <div class="university-name">RV College of Engineering</div>
+                        <div class="degree">Bachelor of Technology in Computer Science and Engineering</div>
+                    </div>
+                    <div class="edu-date">Aug 2016 - Jul 2020</div>
+                </div>
+                <div class="gpa">GPA: 8.38</div>
+                <div class="coursework"><strong>Coursework:</strong> Data Structures, Algorithms, OOP, Operating Systems, DBMS, Web Development</div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links and sections
+                navLinks.forEach(l => l.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Show corresponding section
+                const targetId = link.getAttribute('href').substring(1);
+                document.getElementById(targetId).classList.add('active');
+                
+                // Smooth scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
